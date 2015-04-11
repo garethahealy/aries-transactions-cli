@@ -19,8 +19,13 @@
  */
 package com.garethahealy.fuse.aries.transactions.cli;
 
-import javax.resource.spi.ManagedConnectionFactory;
+import java.sql.SQLException;
+
 import javax.transaction.xa.XAException;
+
+import com.garethahealy.fuse.aries.transactions.cli.connectionmanagers.DbManagedConnectionFactory;
+import com.garethahealy.fuse.aries.transactions.cli.connectionmanagers.MySqlManagedConnectionFactory;
+import com.garethahealy.fuse.aries.transactions.cli.parsers.DefaultCLIParser;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
@@ -36,9 +41,6 @@ import org.slf4j.LoggerFactory;
 
 public class Application {
 
-    //Oracle: SELECT formatid, globalid, branchid FROM SYS.DBA_PENDING_TRANSACTIONS
-    //        http://docs.oracle.com/cd/B19306_01/server.102/b14237/statviews_4026.htm
-
     private static final Logger LOG = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
@@ -48,13 +50,15 @@ public class Application {
 
             String dataSource = parser.getDataSourceOption(commandLine);
 
-            ManagedConnectionFactory managedConnectionFactory = getManagedConnectionFactory();
+            DbManagedConnectionFactory managedConnectionFactory = new MySqlManagedConnectionFactory();
 
             ConnectionManagerContainer connectionManagerContainer = getConnectionManagerContainer(dataSource);
-            connectionManagerContainer.doRecovery(managedConnectionFactory);
+            connectionManagerContainer.doRecovery(managedConnectionFactory.getManagedConnectionFactory(null));
         } catch (ParseException ex) {
             LOG.error("We hit a problem! {}", ExceptionUtils.getStackTrace(ex));
         } catch (XAException ex) {
+            LOG.error("We hit a problem! {}", ExceptionUtils.getStackTrace(ex));
+        } catch (SQLException ex) {
             LOG.error("We hit a problem! {}", ExceptionUtils.getStackTrace(ex));
         }
     }
@@ -69,9 +73,5 @@ public class Application {
                                                                                       dataSource, loader);
 
         return manager;
-    }
-
-    private static ManagedConnectionFactory getManagedConnectionFactory() {
-        return null;
     }
 }

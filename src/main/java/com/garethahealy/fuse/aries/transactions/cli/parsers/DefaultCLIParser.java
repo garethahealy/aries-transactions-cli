@@ -1,6 +1,4 @@
-package com.garethahealy.fuse.aries.transactions.cli;
-
-import java.io.IOException;
+package com.garethahealy.fuse.aries.transactions.cli.parsers;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
