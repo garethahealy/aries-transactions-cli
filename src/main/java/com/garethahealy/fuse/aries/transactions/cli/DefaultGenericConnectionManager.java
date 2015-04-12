@@ -27,6 +27,8 @@ import org.apache.geronimo.transaction.manager.RecoverableTransactionManager;
 
 public class DefaultGenericConnectionManager extends GenericConnectionManager {
 
+    private static final long serialVersionUID = 1L;
+
     public DefaultGenericConnectionManager(XATransactions xaTransactions, PartitionedPool partitionedPool, RecoverableTransactionManager recoverableTransactionManager,
                                            String dataSource, ClassLoader loader) {
         super(xaTransactions, partitionedPool, null, null, recoverableTransactionManager, dataSource, loader);

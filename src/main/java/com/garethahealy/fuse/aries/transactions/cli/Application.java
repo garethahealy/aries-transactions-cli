@@ -20,6 +20,7 @@
 package com.garethahealy.fuse.aries.transactions.cli;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.transaction.xa.XAException;
 
@@ -44,22 +45,33 @@ public class Application {
     private static final Logger LOG = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
+        LOG.info("Starting...");
+
+        DefaultCLIParser parser = new DefaultCLIParser(new GnuParser());
+
         try {
-            DefaultCLIParser parser = new DefaultCLIParser(new GnuParser());
             CommandLine commandLine = parser.parse(args, parser.getOptions());
 
-            String dataSource = parser.getDataSourceOption(commandLine);
+            Map<String, String> databaseOptions = parser.getDatabaseOptions(commandLine);
 
             DbManagedConnectionFactory managedConnectionFactory = new MySqlManagedConnectionFactory();
 
-            ConnectionManagerContainer connectionManagerContainer = getConnectionManagerContainer(dataSource);
-            connectionManagerContainer.doRecovery(managedConnectionFactory.getManagedConnectionFactory(null));
+            LOG.info("About to run Aries...");
+
+            ConnectionManagerContainer connectionManagerContainer = getConnectionManagerContainer("datasource");
+            connectionManagerContainer.doRecovery(managedConnectionFactory.getManagedConnectionFactory(databaseOptions));
         } catch (ParseException ex) {
             LOG.error("We hit a problem! {}", ExceptionUtils.getStackTrace(ex));
+
+            parser.displayHelp(false);
         } catch (XAException ex) {
             LOG.error("We hit a problem! {}", ExceptionUtils.getStackTrace(ex));
+
+            parser.displayHelp(false);
         } catch (SQLException ex) {
             LOG.error("We hit a problem! {}", ExceptionUtils.getStackTrace(ex));
+
+            parser.displayHelp(false);
         }
     }
 

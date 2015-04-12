@@ -1,4 +1,26 @@
+/*
+ * #%L
+ * aries-transactions-cli-parent
+ * %%
+ * Copyright (C) 2013 - 2015 Gareth Healy
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package com.garethahealy.fuse.aries.transactions.cli.parsers;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -17,7 +39,7 @@ public class DefaultCLIParser {
 
     public Options getOptions() {
         //Setup the options we can use on the command line
-        Option dbDriverOption = new Option("db", "datasource", true, "Database datasource to use");
+        Option dbDriverOption = new Option("db", "database", true, "Comma-seperated database options, i.e.: option=value,option=value");
 
         Options options = new Options();
         options.addOption(dbDriverOption);
@@ -46,7 +68,17 @@ public class DefaultCLIParser {
         }
     }
 
-    public String getDataSourceOption(CommandLine line) {
-        return line.getOptionValue("datasource");
+    public Map<String, String> getDatabaseOptions(CommandLine line) {
+        Map<String, String> options = new HashMap<String, String>();
+
+        String optionLine = line.getOptionValue("database");
+        String[] optionLineSplit = optionLine.split(",");
+        for (String current : optionLineSplit) {
+            String[] keyValues = current.split("=");
+
+            options.put(keyValues[0], keyValues[1]);
+        }
+
+        return options;
     }
 }
