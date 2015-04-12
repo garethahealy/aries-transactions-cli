@@ -46,11 +46,16 @@ import javax.transaction.SystemException;
 import org.apache.geronimo.connector.outbound.connectionmanagerconfig.PoolingSupport;
 import org.apache.geronimo.transaction.manager.NamedXAResource;
 import org.apache.geronimo.transaction.manager.RecoverableTransactionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @version $Rev: 585309 $ $Date: 2007-10-16 20:54:22 -0400 (Tue, 16 Oct 2007) $
  */
 public abstract class AbstractConnectionManager implements ConnectionManagerContainer, ConnectionManager, LazyAssociatableConnectionManager, PoolingAttributes {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractConnectionManager.class);
+
     protected final Interceptors interceptors;
     private final RecoverableTransactionManager transactionManager;
 
@@ -75,7 +80,10 @@ public abstract class AbstractConnectionManager implements ConnectionManagerCont
 
     public void doRecovery(ManagedConnectionFactory managedConnectionFactory) {
         try {
+            LOG.info("doRecovery...");
+
             if (!getIsRecoverable()) {
+                LOG.info("doRecovery not needed...");
                 return;
             }
             ManagedConnectionInfo mci = new ManagedConnectionInfo(managedConnectionFactory, null);
