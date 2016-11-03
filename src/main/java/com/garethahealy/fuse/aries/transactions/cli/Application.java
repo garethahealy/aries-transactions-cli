@@ -29,7 +29,7 @@ import com.garethahealy.fuse.aries.transactions.cli.connectionmanagers.MySqlMana
 import com.garethahealy.fuse.aries.transactions.cli.parsers.DefaultCLIParser;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.geronimo.connector.outbound.ConnectionManagerContainer;
@@ -47,7 +47,7 @@ public class Application {
     public static void main(String[] args) {
         LOG.info("Starting...");
 
-        DefaultCLIParser parser = new DefaultCLIParser(new GnuParser());
+        DefaultCLIParser parser = new DefaultCLIParser(new DefaultParser());
 
         try {
             CommandLine commandLine = parser.parse(args, parser.getOptions());

@@ -88,15 +88,15 @@ public class GenericConnectionManager extends AbstractConnectionManager {
 
         /**
          * Order of constructed interceptors:
-         * <p/>
+         *
          * ConnectionTrackingInterceptor (connectionTracker != null)
          * TCCLInterceptor
          * ConnectionHandleInterceptor
-         * TransactionCachingInterceptor (useTransactions & useTransactionCaching)
+         * TransactionCachingInterceptor (useTransactions &amp; useTransactionCaching)
          * TransactionEnlistingInterceptor (useTransactions)
          * SubjectInterceptor (realmBridge != null)
          * SinglePoolConnectionInterceptor or MultiPoolConnectionInterceptor
-         * LocalXAResourceInsertionInterceptor or XAResourceInsertionInterceptor (useTransactions (&localTransactions))
+         * LocalXAResourceInsertionInterceptor or XAResourceInsertionInterceptor (useTransactions (&amp;localTransactions))
          * MCFConnectionInterceptor
          */
         public InterceptorsImpl(TransactionSupport transactionSupport,
