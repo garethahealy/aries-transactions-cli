@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/garethahealy/aries-transactions-cli.svg?branch=master)](https://travis-ci.org/garethahealy/aries-transactions-cli)
+[![License](https://img.shields.io/hexpm/l/plug.svg?maxAge=2592000)]()
 
 # aries-transactions-cli
 Command line tool to show extra info about transactions via the aries project, if you are hitting problems recovering a transaction.
