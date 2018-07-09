@@ -1,5 +1,10 @@
 sudo: required
 dist: trusty
+addons:
+  sonarqube:
+    organization: garethahealy-github
+    token:
+      secure: Mc1KuBodrPrIYVqYeOp0WAlDOvVV02fq1CmbWyjqxMMD5a4l/5YhM6HfXBZ9sA9JpWBilh3ockKgUib3iyChFNFNKAKsQ7RHPNznckHoObzTAwj1ThBTlD0hD5xvvTPkLa5gCsHHZpGU3R55dWJlldGFuFfK+b/2V8PUBS1j9DQ=
 language: java
 jdk:
 - oraclejdk8
